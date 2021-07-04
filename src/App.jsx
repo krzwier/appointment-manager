@@ -21,15 +21,10 @@ function App() {
    }, []);
 
    useEffect(() => {
-      async function callFetch() {
-         await fetchData();
-      }
-      console.log("use effect called");
-      callFetch();
+      fetchData();
    }, [fetchData]);
 
    const deleteAppointment = (appointmentId) => {
-      console.log("deleteAppointment completed");
       setAppointmentList(
          appointmentList.filter(
             (appointment) =>
@@ -50,6 +45,7 @@ function App() {
             {appointmentList.map((appointment) => (
                <AppointmentInfo
                   key={appointment.id}
+                  id={appointment.id}
                   petName={appointment.petName}
                   aptDate={appointment.aptDate}
                   ownerName={appointment.ownerName}
