@@ -8,6 +8,23 @@ function App() {
    const [appointmentList, setAppointmentList] = useState(
       []
    );
+   const [query, setQuery] = useState("");
+
+   const filteredAppointments = appointmentList.filter(
+      (item) => {
+         return (
+            item.petName
+               .toLowerCase()
+               .includes(query.toLowerCase()) ||
+            item.ownerName
+               .toLowerCase()
+               .includes(query.toLowerCase()) ||
+            item.aptNotes
+               .toLowerCase()
+               .includes(query.toLowerCase())
+         );
+      }
+   );
 
    const fetchData = useCallback(async () => {
       const response = await fetch("./data.json", {
@@ -40,9 +57,12 @@ function App() {
             Your Appointments
          </h1>
          <AddAppointment />
-         <Search />
+         <Search
+            query={query}
+            onQueryChange={(myQuery) => setQuery(myQuery)}
+         />
          <ul className="divide-y divide-gray-200">
-            {appointmentList.map((appointment) => (
+            {filteredAppointments.map((appointment) => (
                <AppointmentInfo
                   key={appointment.id}
                   id={appointment.id}
