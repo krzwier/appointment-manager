@@ -1,11 +1,34 @@
 import { BiCalendarPlus } from "react-icons/bi";
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 
-const AddAppointment = () => {
+const AddAppointment = ({ onSendAppointment, lastId }) => {
+   const clearForm = {
+      ownerName: "",
+      petName: "",
+      aptDate: "",
+      aptTime: "",
+      aptNotes: ""
+   };
+
    const [formVisible, toggle] = useReducer(
       (formVisible) => !formVisible,
       false
    );
+
+   const [formData, setFormData] = useState(clearForm);
+
+   const formDataPublish = () => {
+      const apptInfo = {
+         id: lastId + 1,
+         ownerName: formData.ownerName,
+         petName: formData.petName,
+         aptDate: formData.aptDate + " " + formData.aptTime,
+         aptNotes: formData.aptNotes
+      };
+      onSendAppointment(apptInfo);
+      setFormData(clearForm);
+      toggle();
+   };
 
    return (
       <div>
@@ -35,6 +58,13 @@ const AddAppointment = () => {
                         type="text"
                         name="ownerName"
                         id="ownerName"
+                        onChange={(e) => {
+                           setFormData({
+                              ...formData,
+                              ownerName: e.target.value
+                           });
+                        }}
+                        // value={formData.ownerName}
                         className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                      />
                   </div>
@@ -52,6 +82,12 @@ const AddAppointment = () => {
                         type="text"
                         name="petName"
                         id="petName"
+                        onChange={(e) => {
+                           setFormData({
+                              ...formData,
+                              petName: e.target.value
+                           });
+                        }}
                         className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                      />
                   </div>
@@ -69,6 +105,12 @@ const AddAppointment = () => {
                         type="date"
                         name="aptDate"
                         id="aptDate"
+                        onChange={(e) => {
+                           setFormData({
+                              ...formData,
+                              aptDate: e.target.value
+                           });
+                        }}
                         className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                      />
                   </div>
@@ -86,6 +128,12 @@ const AddAppointment = () => {
                         type="time"
                         name="aptTime"
                         id="aptTime"
+                        onChange={(e) => {
+                           setFormData({
+                              ...formData,
+                              aptTime: e.target.value
+                           });
+                        }}
                         className="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                      />
                   </div>
@@ -103,6 +151,12 @@ const AddAppointment = () => {
                         id="aptNotes"
                         name="aptNotes"
                         rows="3"
+                        onChange={(e) => {
+                           setFormData({
+                              ...formData,
+                              aptNotes: e.target.value
+                           });
+                        }}
                         className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md"
                         placeholder="Detailed comments about the condition"
                      ></textarea>
@@ -112,6 +166,7 @@ const AddAppointment = () => {
                <div className="pt-5">
                   <div className="flex justify-end">
                      <button
+                        onClick={formDataPublish}
                         type="submit"
                         className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400"
                      >

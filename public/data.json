@@ -32,7 +32,7 @@
       "petName": "Scout",
       "ownerName": "Nicolette Bardeau",
       "aptNotes": "This dog is coming in for his annual checkup and vaccinations",
-      "aptDate": "2018-11-28 9:00"
+      "aptDate": "2018-11-28 09:00"
    },
    {
       "id": "5",
@@ -74,7 +74,7 @@
       "petName": "Wesley",
       "ownerName": "Nathan Cayden",
       "aptNotes": "This dog is returning for his next heartworm treatment visit",
-      "aptDate": "2018-11-29 8:30"
+      "aptDate": "2018-11-29 08:30"
    },
    {
       "id": "11",
@@ -109,7 +109,7 @@
       "petName": "Kiko",
       "ownerName": "Kathlyn Zlata",
       "aptNotes": "Kiko has been exhibiting excessive thirst and weight loss for the past few weeks",
-      "aptDate": "2018-11-30 9:00"
+      "aptDate": "2018-11-30 09:00"
    },
    {
       "id": "16",
@@ -144,7 +144,7 @@
       "petName": "Chip",
       "ownerName": "Jason Hemlock",
       "aptNotes": "This fish has a spotty white patch developing on his back ",
-      "aptDate": "2018-12-1 8:45"
+      "aptDate": "2018-12-1 08:45"
    },
    {
       "id": "21",
@@ -172,6 +172,6 @@
       "petName": "Nugget",
       "ownerName": "Darla Branson",
       "aptNotes": "This little fish Nugget, has a rash on his stomach area",
-      "aptDate": "2018-12-2 9:00"
+      "aptDate": "2018-12-2 09:00"
    }
 ]

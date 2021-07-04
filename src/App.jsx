@@ -9,9 +9,10 @@ function App() {
       []
    );
    const [query, setQuery] = useState("");
-
-   const filteredAppointments = appointmentList.filter(
-      (item) => {
+   const [sortBy, setSortBy] = useState("petName");
+   const [orderBy, setOrderBy] = useState("asc");
+   const filteredAppointments = appointmentList
+      .filter((item) => {
          return (
             item.petName
                .toLowerCase()
@@ -23,8 +24,14 @@ function App() {
                .toLowerCase()
                .includes(query.toLowerCase())
          );
-      }
-   );
+      })
+      .sort((a, b) => {
+         let order = orderBy === "asc" ? 1 : -1;
+         return a[sortBy].toLowerCase() <
+            b[sortBy].toLowerCase()
+            ? order * -1
+            : order * 1;
+      });
 
    const fetchData = useCallback(async () => {
       const response = await fetch("./data.json", {
@@ -56,10 +63,30 @@ function App() {
             <BiCalendar className="inline-block text-red-400 align-top mr-3" />
             Your Appointments
          </h1>
-         <AddAppointment />
+         <AddAppointment
+            onSendAppointment={(newAppt) =>
+               setAppointmentList([
+                  ...appointmentList,
+                  newAppt
+               ])
+            }
+            lastId={appointmentList.reduce(
+               (max, item) =>
+                  Number(item.id) > max
+                     ? Number(item.id)
+                     : max,
+               0
+            )}
+         />
          <Search
             query={query}
             onQueryChange={(myQuery) => setQuery(myQuery)}
+            orderBy={orderBy}
+            onOrderByChange={(newOrder) =>
+               setOrderBy(newOrder)
+            }
+            sortBy={sortBy}
+            onSortByChange={(newSort) => setSortBy(newSort)}
          />
          <ul className="divide-y divide-gray-200">
             {filteredAppointments.map((appointment) => (
