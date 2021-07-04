@@ -1,9 +1,43 @@
-import { BiCalendar, BiTrash } from "react-icons/bi";
+import { useState, useEffect, useCallback } from "react";
+import { BiCalendar } from "react-icons/bi";
 import Search from "./components/Search";
 import AddAppointment from "./components/AddAppointment";
-import appointmentList from "./data.json";
+import AppointmentInfo from "./components/AppointmentInfo";
 
 function App() {
+   const [appointmentList, setAppointmentList] = useState(
+      []
+   );
+
+   const fetchData = useCallback(async () => {
+      const response = await fetch("./data.json", {
+         headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+         }
+      });
+      const data = await response.json();
+      setAppointmentList(data);
+   }, []);
+
+   useEffect(() => {
+      async function callFetch() {
+         await fetchData();
+      }
+      console.log("use effect called");
+      callFetch();
+   }, [fetchData]);
+
+   const deleteAppointment = (appointmentId) => {
+      console.log("deleteAppointment completed");
+      setAppointmentList(
+         appointmentList.filter(
+            (appointment) =>
+               appointment.id !== appointmentId
+         )
+      );
+   };
+
    return (
       <div className="App container mx-auto mt-3 font-thin">
          <h1 className="text-5xl mb-3">
@@ -14,33 +48,14 @@ function App() {
          <Search />
          <ul className="divide-y divide-gray-200">
             {appointmentList.map((appointment) => (
-               <li className="px-3 py-3 flex items-start">
-                  <button
-                     type="button"
-                     className="p-1.5 mr-1.5 mt-1 rounded text-white bg-red-400 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                  >
-                     <BiTrash />
-                  </button>
-                  <div className="flex-grow">
-                     <div className="flex items-center">
-                        <span className="flex-none font-medium text-2xl text-blue-500">
-                           {appointment.petName}
-                        </span>
-                        <span className="flex-grow text-right">
-                           {appointment.aptDate}
-                        </span>
-                     </div>
-                     <div>
-                        <b className="font-bold text-blue-500">
-                           Owner:
-                        </b>{" "}
-                        {appointment.ownerName}
-                     </div>
-                     <div className="leading-tight">
-                        {appointment.aptNotes}
-                     </div>
-                  </div>
-               </li>
+               <AppointmentInfo
+                  key={appointment.id}
+                  petName={appointment.petName}
+                  aptDate={appointment.aptDate}
+                  ownerName={appointment.ownerName}
+                  aptNotes={appointment.aptNotes}
+                  onDeleteAppointment={deleteAppointment}
+               />
             ))}
          </ul>
       </div>

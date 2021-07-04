@@ -3,8 +3,12 @@ import {
    BiCaretDown,
    BiCheck
 } from "react-icons/bi";
+import { useReducer } from "react";
 
-const DropDown = () => {
+const DropDown = ({ visible }) => {
+   if (!visible) {
+      return null;
+   }
    return (
       <div
          className="origin-top-right absolute right-0 mt-2 w-56
@@ -52,6 +56,11 @@ const DropDown = () => {
 };
 
 const Search = () => {
+   const [dropDownVisible, toggle] = useReducer(
+      (dropDownVisible) => !dropDownVisible,
+      false
+   );
+
    return (
       <div className="py-5">
          <div className="mt-1 relative rounded-md shadow-sm">
@@ -70,6 +79,7 @@ const Search = () => {
             <div className="absolute inset-y-0 right-0 flex items-center">
                <div>
                   <button
+                     onClick={toggle}
                      type="button"
                      className="justify-center px-4 py-2 bg-blue-400 border-2 border-blue-400 text-sm text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 flex items-center"
                      id="options-menu"
@@ -79,7 +89,7 @@ const Search = () => {
                      Sort By{" "}
                      <BiCaretDown className="ml-2" />
                   </button>
-                  <DropDown />
+                  <DropDown visible={dropDownVisible} />
                </div>
             </div>
          </div>
